@@ -1,0 +1,102 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+input[type="password"], input[type="text"] {
+	border: 1px solid #c0c0c0;
+	color: #a0090e;
+	background-image: linear-gradient(90deg, transparent, #c0c0c0 160%);
+	background: -webkit-linear-gradient(0deg, transparent, #c0c0c0 490%);
+	width: 70%;
+	height: 24px;
+	font-size: 20px;
+}
+
+input:-ms-input-placeholder {
+	color: #c78889
+}
+
+input::-ms-input-placeholder {
+	color: #c78889
+}
+
+input:placeholder-shown {
+	color: #c78889
+}
+
+input:-moz-placeholder {
+	color: #c78889
+}
+
+input::-webkit-input-placeholder {
+	color: #c78889
+}
+
+.login_user {
+	margin-bottom: 1em;
+	text-align: right;
+}
+
+.login_pwd {
+	margin-bottom: 1em;
+	text-align: right;
+}
+
+.login_button {
+	border: 1px solid #c0c0c0;
+	font-size: 20px;
+}
+
+div.center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	vertical-align: middle;
+}
+
+table {
+	margin: auto;
+}
+
+.messagePanel {
+	border-top: 1px solid gray;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(255, 255, 255, 0.75);
+}
+
+.messagePanel>div {
+	display: table;
+}
+
+.messagePanel>div>img {
+	float: left;
+	padding: 0em;
+	padding-right: 0.6em;
+}
+
+.messageErrorDescStyle, .messageInfoDescStyle, .messageWarningDescStyle {
+	font-size: 1.0em;
+	padding-left: 3.1em;
+}
+
+.messageErrorTitleStyle, .messageInfoTitleStyle, .messageWarningTitleStyle {
+	white-space: nowrap;
+	height: 100%;
+	padding: 0em;
+	padding-top: 0.2em;
+	font-weight: bold;
+	font-size: 1.5em;
+	vertical-align: middle;
+}
+
+.messageErrorTitleStyle {
+	color: red;
+}
