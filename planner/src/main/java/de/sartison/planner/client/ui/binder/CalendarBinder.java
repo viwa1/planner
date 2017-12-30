@@ -19,4 +19,13 @@ public class CalendarBinder extends PresenterComposite<CalendarPresenter> implem
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
+	@Override
+	protected void onLoad() {
+		super.onLoad();
+		initCalendar();
+	}
+	
+	public static final native String initCalendar() /*-{
+		return $wnd.initCalendar();
+	}-*/;
 }

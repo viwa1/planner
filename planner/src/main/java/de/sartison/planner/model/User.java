@@ -11,6 +11,8 @@ public class User {
 	private Long id;
 	private String name;
 	private String pwd;
+	private String bgColor;
+	private String txColor;
 
 	public User() {
 	}
@@ -21,7 +23,7 @@ public class User {
 		this.pwd = pwd;
 	}
 
-	@Column(name = "kk_id")
+	@Column(name = "user_id")
 	@Id
 	public Long getId() {
 		return id;
@@ -31,7 +33,7 @@ public class User {
 		this.id = id;
 	}
 
-	@Column(name = "kk_name")
+	@Column(name = "user_name")
 	public String getName() {
 		return name;
 	}
@@ -40,13 +42,31 @@ public class User {
 		this.name = name;
 	}
 
-	@Column(name = "kk_password")
+	@Column(name = "user_password")
 	public String getPwd() {
 		return pwd;
 	}
 
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
+	}
+
+	@Column(name = "user_color")
+	public String getBgColor() {
+		return bgColor;
+	}
+
+	public void setBgColor(String bgColor) {
+		this.bgColor = bgColor;
+	}
+
+	@Column(name = "user_text_color")
+	public String getTxColor() {
+		return txColor;
+	}
+
+	public void setTxColor(String txColor) {
+		this.txColor = txColor;
 	}
 
 	@Override
@@ -76,6 +96,6 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", user=" + name + "]";
+		return "User [id=" + id + ", name=" + name + ", bgColor=" + bgColor + ", txColor=" + txColor + "]";
 	}
 }
