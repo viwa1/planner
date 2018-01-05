@@ -15,19 +15,19 @@ public class RemoteAccess {
 	
 	private PlannerRestService service = GWT.create(PlannerRestService.class);
 
-	public void login(String userName, String password, AsyncCallback<User> callback) {
-		getSalt(userName, password, callback);
+	public void login(String userEmail, String password, AsyncCallback<User> callback) {
+		getSalt(userEmail, password, callback);
 	}
 
-	private void getSalt(String userName, String password, AsyncCallback<User> callback) {
-		service.getSalt(userName, new TextCallback() {
+	private void getSalt(String userEmail, String password, AsyncCallback<User> callback) {
+		service.getSalt(userEmail, new TextCallback() {
 
 			@Override
 			public void onSuccess(Method method, String salt) {
 				String pwdSha256 = Utils.sha256(password);
 				String saltedPwdHash = Utils.sha256(salt + pwdSha256);
 
-				authenticate(userName, saltedPwdHash, callback);
+				authenticate(userEmail, saltedPwdHash, callback);
 			}
 
 			@Override
@@ -37,10 +37,10 @@ public class RemoteAccess {
 		});
 	}
 
-	private void authenticate(String userName, String password, AsyncCallback<User> callback) {
+	private void authenticate(String userEmail, String password, AsyncCallback<User> callback) {
 		User userObj = new User();
 
-		userObj.setName(userName);
+		userObj.setEmail(userEmail);
 		userObj.setPwd(password);
 
 		service.authenticate(userObj, new MethodCallback<User>() {

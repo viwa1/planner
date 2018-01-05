@@ -14,9 +14,9 @@ import de.sartison.planner.model.User;
 @Path("../rest")
 public interface PlannerRestService extends RestService {
 	
-	@Path("login/{user}")
+	@Path("login/{email}")
 	@GET
-	public void getSalt(@PathParam("user") String user, TextCallback callback);
+	public void getSalt(@PathParam("email") String email, TextCallback callback);
 
 	@Path("login")
 	@POST

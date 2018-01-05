@@ -9,7 +9,7 @@ import javax.persistence.Table;
 @Table(name = "kk_user")
 public class User {
 	private Long id;
-	private String name;
+	private String email;
 	private String pwd;
 	private String bgColor;
 	private String txColor;
@@ -17,9 +17,8 @@ public class User {
 	public User() {
 	}
 
-	public User(String name, String pwd) {
-		super();
-		this.name = name;
+	public User(String email, String pwd) {
+		this.email = email;
 		this.pwd = pwd;
 	}
 
@@ -33,13 +32,13 @@ public class User {
 		this.id = id;
 	}
 
-	@Column(name = "user_name")
-	public String getName() {
-		return name;
+	@Column(name = "user_email")
+	public String getEmail() {
+		return email;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Column(name = "user_password")
@@ -96,6 +95,6 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", bgColor=" + bgColor + ", txColor=" + txColor + "]";
+		return "User [id=" + id + ", email=" + email + ", bgColor=" + bgColor + ", txColor=" + txColor + "]";
 	}
 }

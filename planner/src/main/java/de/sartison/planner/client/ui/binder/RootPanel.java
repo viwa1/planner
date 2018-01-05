@@ -9,6 +9,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,9 +30,12 @@ public class RootPanel extends Composite implements EntryPoint {
 
 	@UiField(provided = true)
 	protected MessagePanel messagePanel = new MessagePanel();
-	
+
 	@UiField
 	protected FlowPanel root;
+
+	@UiField
+	protected HTMLPanel effect;
 
 	interface RootPanelUiBinder extends UiBinder<Widget, RootPanel> {
 	}
@@ -66,7 +70,16 @@ public class RootPanel extends Composite implements EntryPoint {
 	@Override
 	protected void onLoad() {
 		super.onLoad();
+		effect(false);
 
 		loginBinder.getPresenter().go(root);
+	}
+
+	public void effect(boolean on) {
+		if (on) {
+			effect.setStyleName("effect-on");
+		} else {
+			effect.setStyleName("effect-off");
+		}
 	}
 }

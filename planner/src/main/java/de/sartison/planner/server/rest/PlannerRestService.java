@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import de.sartison.planner.server.rest.resource.EventResource;
 import de.sartison.planner.server.rest.resource.LoginResource;
 
 @Path("")
@@ -13,6 +14,7 @@ public class PlannerRestService {
 	private final static Logger LOGGER = Logger.getLogger(PlannerRestService.class);
 
 	private LoginResource loginResource;
+	private EventResource eventResource;
 	private SessionFactory sessionFactory;
 
 	public PlannerRestService() {
@@ -21,8 +23,9 @@ public class PlannerRestService {
 			sessionFactory = new Configuration().configure().buildSessionFactory();
 			LOGGER.info("SessionFactory build");
 
-			LOGGER.info("Loadeding resources...");
+			LOGGER.info("Loading resources...");
 			loginResource = new LoginResource(sessionFactory);
+			eventResource = new EventResource(sessionFactory);
 			LOGGER.info("Resources loaded");
 		} catch (Exception exc) {
 			LOGGER.error("Error occured", exc);
@@ -37,8 +40,13 @@ public class PlannerRestService {
 	}
 
 	@Path("login")
-	public LoginResource getResourcLoginResource() {
+	public LoginResource getLoginResource() {
 		return loginResource;
+	}
+	
+	@Path("events")
+	public EventResource getEventResource() {
+		return eventResource;
 	}
 
 	@Override

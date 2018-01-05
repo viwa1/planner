@@ -33,8 +33,8 @@ public class LoginDao {
 		this.sessionFactory = sessionFactory;
 	}
 
-	public String getSalt(String user) throws NoSuchAlgorithmException {
-		LOGGER.info(String.format("Creating salt for user '%s'", user));
+	public String getSalt(String email) throws NoSuchAlgorithmException {
+		LOGGER.info(String.format("Creating salt for user '%s'", email));
 
 		String random = UUID.randomUUID().toString();
 		String salt = Utils.sha256(random);
@@ -42,19 +42,19 @@ public class LoginDao {
 		lock.lock();
 
 		try {
-			memory.put(user, salt);
+			memory.put(email, salt);
 		} finally {
 			lock.unlock();
 		}
 
 		ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
-		ses.schedule(getTask(user), 5, TimeUnit.SECONDS);
+		ses.schedule(getTask(email), 5, TimeUnit.SECONDS);
 
 		return salt;
 	}
 
-	public User authenticate(String user, String pwdHash) throws NoSuchAlgorithmException {
-		LOGGER.info(String.format("Authenticating user '%s'", user));
+	public User authenticate(String email, String pwdHash) throws NoSuchAlgorithmException {
+		LOGGER.info(String.format("Authenticating user '%s'", email));
 
 		User userAuthenticated = null;
 		String salt = null;
@@ -62,38 +62,38 @@ public class LoginDao {
 		lock.lock();
 
 		try {
-			salt = memory.get(user);
+			salt = memory.get(email);
 		} finally {
 			lock.unlock();
 		}
 
 		if (salt != null) {
-			User userObj = getUser(user);
+			User userObj = getUser(email);
 			if (userObj != null) {
 				String hash = Utils.sha256(salt + userObj.getPwd());
 				if (pwdHash.equals(hash)) {
 					userAuthenticated = userObj;
-					LOGGER.info(String.format("User '%s' authenticated", user));
+					LOGGER.info(String.format("User '%s' authenticated", email));
 				}
 			}
 		} else {
-			LOGGER.warn(String.format("Salt not found for user '%s'. Maybe time was expired!", user));
+			LOGGER.warn(String.format("Salt not found for user '%s'. Maybe time was expired!", email));
 		}
 
 		return userAuthenticated;
 	}
 
-	private User getUser(String user) {
+	private User getUser(String email) {
 		try (Session session = sessionFactory.openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<User> query = builder.createQuery(User.class);
 			Root<User> root = query.from(User.class);
-			query.select(root).where(builder.equal(root.get("name"), user));
+			query.select(root).where(builder.equal(builder.lower(root.get("email")), email.toLowerCase()));
 			Query<User> qU = session.createQuery(query);
 
 			User userObj = qU.uniqueResult();
 
-			LOGGER.info(String.format("User '%s' found by name '%s'", userObj, user));
+			LOGGER.info(String.format("User '%s' found by email '%s'", userObj, email));
 			
 			return userObj;
 		} catch (Exception e) {
@@ -101,14 +101,14 @@ public class LoginDao {
 		}
 	}
 
-	private Runnable getTask(String user) {
+	private Runnable getTask(String email) {
 		return new Runnable() {
 			@Override
 			public void run() {
-				LOGGER.warn(String.format("Salt for user '%s' expired", user));
+				LOGGER.warn(String.format("Salt for user '%s' expired", email));
 				try {
-					memory.remove(user);
-					LOGGER.warn(String.format("Salt for user '%s' removed", user));
+					memory.remove(email);
+					LOGGER.warn(String.format("Salt for user '%s' removed", email));
 				} finally {
 					lock.unlock();
 				}

@@ -1,12 +1,13 @@
 function initCalendar() {
-	console.log("MMMSJDSJDBbbbbJHDIUHkhiuhiu");
 $(document).ready(function() {
     // page is now ready, initialize the calendar...
     $('#calendar').fullCalendar({
 		header : { 
 			left: 'prev,next today',
-			center: 'title',
 			right: 'month,agendaWeek,agendaDay'
+		},
+		footer : {
+			right: 'title'
 		},
 		fixedWeekCount: false,
 		weekNumbersWithinDays: true,
@@ -17,8 +18,9 @@ $(document).ready(function() {
 			week:     'Woche',
 			day:      'Tag'
 		},
-		defaultView: 'month',
-		editable: true
+		defaultView : 'month',
+		editable : true,
+		events : 'planner/../rest/events'
     });
 });
 }

@@ -36,7 +36,7 @@ input::-webkit-input-placeholder {
 	color: #c78889
 }
 
-.login_user {
+.login_email {
 	margin-bottom: 1em;
 	text-align: right;
 }
@@ -52,11 +52,12 @@ input::-webkit-input-placeholder {
 }
 
 div.center {
-	display: flex;
+	display: block;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
 	vertical-align: middle;
+	height: 100%;
 }
 
 table {
@@ -82,12 +83,14 @@ table {
 	padding-right: 0.6em;
 }
 
-.messageErrorDescStyle, .messageInfoDescStyle, .messageWarningDescStyle {
+.messageErrorDescStyle, .messageInfoDescStyle, .messageWarningDescStyle
+	{
 	font-size: 1.0em;
 	padding-left: 3.1em;
 }
 
-.messageErrorTitleStyle, .messageInfoTitleStyle, .messageWarningTitleStyle {
+.messageErrorTitleStyle, .messageInfoTitleStyle,
+	.messageWarningTitleStyle {
 	white-space: nowrap;
 	height: 100%;
 	padding: 0em;
@@ -98,5 +101,21 @@ table {
 }
 
 .messageErrorTitleStyle {
-	color: red;
+	color: #a0090e;
+}
+
+.effect-off {
+	display: none;
+}
+
+.effect-on {
+	position: fixed;
+	display: block;
+	width: 100%;
+	height: 85%;
+	z-index: 1;
+	background: rgba(255, 255, 255, 0.25);
+	background-image: url('../pics/wait.svg');
+	background-position: center center;
+	background-repeat: no-repeat;
 }

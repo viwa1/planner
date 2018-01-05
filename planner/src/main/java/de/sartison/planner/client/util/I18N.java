@@ -7,7 +7,7 @@ public interface I18N extends Messages {
 	public final static I18N INSTANCE = GWT.create(I18N.class);
 	
 	//Labels
-	String userLabel();
+	String emailLabel();
 	String passwordLabel();
 	String sendLabel();
 	String wellcomeLabel();
@@ -20,7 +20,7 @@ public interface I18N extends Messages {
 	
 	//UI Errors
 	String authenticationFailedException();
-	String userNameFormatExceptionDesc(int minLength);
+	String userEmailFormatExceptionDesc();
 	String passwordFormatExceptionDesc(int minLength);
 	String loginInputFormatException();
 }

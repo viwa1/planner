@@ -18,7 +18,7 @@ public class LoginBinder extends PresenterComposite<LoginPresenter> implements L
 	private static LoginBinderUiBinder uiBinder = GWT.create(LoginBinderUiBinder.class);
 
 	@UiField
-	protected TextBox userTextBox;
+	protected TextBox emailTextBox;
 
 	@UiField
 	protected PasswordTextBox passwordTextBox;
@@ -37,8 +37,8 @@ public class LoginBinder extends PresenterComposite<LoginPresenter> implements L
 	}
 
 	@Override
-	public TextBoxBase getUser() {
-		return userTextBox;
+	public TextBoxBase getEmail() {
+		return emailTextBox;
 	}
 
 	@Override

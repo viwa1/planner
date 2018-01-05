@@ -6,9 +6,9 @@ import com.google.gwt.i18n.client.Constants;
 public interface Preferences extends Constants {
 	public final static Preferences INSTANCE = GWT.create(Preferences.class);
 
-	int minUsernameLength();
-
 	int minPasswordLength();
+	
+	String emailFormat();
 
 	@DefaultStringValue("error.png")
 	String errorMessageIcon();

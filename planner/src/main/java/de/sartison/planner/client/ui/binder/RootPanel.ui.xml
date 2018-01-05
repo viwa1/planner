@@ -3,7 +3,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:de.sartison.planner.client.ui.binder">
 
 	<g:FlowPanel>
+		<g:HTMLPanel styleName="effect-off" ui:field="effect" />
 		<g:FlowPanel ui:field="root" />
-	    <m:MessagePanel ui:field="messagePanel" />
-    </g:FlowPanel>
+		<m:MessagePanel ui:field="messagePanel" />
+	</g:FlowPanel>
 </ui:UiBinder>

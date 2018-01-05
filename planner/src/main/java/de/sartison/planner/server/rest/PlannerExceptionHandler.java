@@ -1,5 +1,6 @@
 package de.sartison.planner.server.rest;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -10,14 +11,19 @@ public class PlannerExceptionHandler implements ExceptionMapper<Exception> {
 
 	@Override
 	public Response toResponse(Exception e) {
-		// For simplicity I am preparing error xml by hand.
-		// Ideally we should create an ErrorResponse class to hold the error
-		// info.
-		StringBuilder response = new StringBuilder("<response>");
-		response.append("<status>ERROR</status>");
-		response.append("<type>" + e.getClass().getName() + "</type>");
-		response.append("<message>" + e.getMessage() + "</message>");
-		response.append("</response>");
-		return Response.serverError().entity(response.toString()).type(MediaType.APPLICATION_XML).build();
+		Response response;
+
+		if (e instanceof WebApplicationException) {
+			WebApplicationException er = (WebApplicationException) e;
+			response = er.getResponse();
+		} else {
+			StringBuilder responseText = new StringBuilder();
+			responseText.append(e.getClass().getName() + ": ");
+			responseText.append(e.getMessage());
+
+			response = Response.serverError().entity(responseText.toString()).type(MediaType.TEXT_PLAIN).build();
+		}
+
+		return response;
 	}
 }

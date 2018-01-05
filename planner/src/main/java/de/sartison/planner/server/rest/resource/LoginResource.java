@@ -29,11 +29,11 @@ public class LoginResource {
 	}
 
 	@PermitAll
-	@Path("{user}")
+	@Path("{email}")
 	@GET
-	public String getSalt(@PathParam("user") String user) throws Exception {
+	public String getSalt(@PathParam("email") String email) throws Exception {
 		try {
-			return loginDao.getSalt(user);
+			return loginDao.getSalt(email);
 		} catch (NoSuchAlgorithmException e) {
 			LOGGER.error("Error on getSalt", e);
 			throw e;
@@ -47,7 +47,7 @@ public class LoginResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public User authenticate(User userToBeAthenticate) throws Exception {
 		try {
-			User userFound = loginDao.authenticate(userToBeAthenticate.getName(), userToBeAthenticate.getPwd());
+			User userFound = loginDao.authenticate(userToBeAthenticate.getEmail(), userToBeAthenticate.getPwd());
 
 			if (userFound == null) {
 				throw new WebApplicationException(Status.UNAUTHORIZED);

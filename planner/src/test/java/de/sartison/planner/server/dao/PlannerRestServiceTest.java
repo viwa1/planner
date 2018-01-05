@@ -19,7 +19,7 @@ public class PlannerRestServiceTest {
 
 	@Test
 	public void getSalt() throws Exception {
-		String salt = plannerRestService.getResourcLoginResource().getSalt("viktor");
+		String salt = plannerRestService.getLoginResource().getSalt("viktor");
 
 		System.out.println(salt);
 
@@ -28,32 +28,32 @@ public class PlannerRestServiceTest {
 
 	@Test
 	public void authenticate() throws Exception {
-		String user = "viktor";
+		String email = "viktor";
 		String password = "viktor";
 
 		String pwdSha256 = Utils.sha256(password);
-		String salt = plannerRestService.getResourcLoginResource().getSalt(user);
+		String salt = plannerRestService.getLoginResource().getSalt(email);
 		String saltedPwdHash = Utils.sha256(salt + pwdSha256);
 
-		User userObj = plannerRestService.getResourcLoginResource().authenticate(new User(user, saltedPwdHash));
+		User userObj = plannerRestService.getLoginResource().authenticate(new User(email, saltedPwdHash));
 
 		Assert.assertNotNull(userObj);
 		Assert.assertTrue(userObj.getId() > 0);
-		Assert.assertNotNull(userObj.getName());
+		Assert.assertNotNull(userObj.getEmail());
 		Assert.assertNull(userObj.getPwd());
 	}
 
 	@Test
-	public void notAuthenticateName() throws Exception {
-		String user = "vikto";
+	public void notAuthenticateEmail() throws Exception {
+		String email = "vikto";
 		String password = "viktor";
 
 		String pwdSha256 = Utils.sha256(password);
-		String salt = plannerRestService.getResourcLoginResource().getSalt(user);
+		String salt = plannerRestService.getLoginResource().getSalt(email);
 		String saltedPwdHash = Utils.sha256(salt + pwdSha256);
 
 		try {
-			plannerRestService.getResourcLoginResource().authenticate(new User(user, saltedPwdHash));
+			plannerRestService.getLoginResource().authenticate(new User(email, saltedPwdHash));
 			Assert.fail("Authentication succsessful");
 		} catch (Exception exc) {
 			//
@@ -62,15 +62,15 @@ public class PlannerRestServiceTest {
 
 	@Test
 	public void notAuthenticatePassword() throws Exception {
-		String user = "viktor";
+		String email = "viktor";
 		String password = "vikto";
 
 		String pwdSha256 = Utils.sha256(password);
-		String salt = plannerRestService.getResourcLoginResource().getSalt(user);
+		String salt = plannerRestService.getLoginResource().getSalt(email);
 		String saltedPwdHash = Utils.sha256(salt + pwdSha256);
 
 		try {
-			plannerRestService.getResourcLoginResource().authenticate(new User(user, saltedPwdHash));
+			plannerRestService.getLoginResource().authenticate(new User(email, saltedPwdHash));
 			Assert.fail("Authentication succsessful");
 		} catch (Exception exc) {
 			//
@@ -78,16 +78,16 @@ public class PlannerRestServiceTest {
 	}
 
 	@Test
-	public void notAuthenticateNameAndPassword() throws Exception {
-		String user = "vikto";
+	public void notAuthenticateEmailAndPassword() throws Exception {
+		String email = "vikto";
 		String password = "vikto";
 
 		String pwdSha256 = Utils.sha256(password);
-		String salt = plannerRestService.getResourcLoginResource().getSalt(user);
+		String salt = plannerRestService.getLoginResource().getSalt(email);
 		String saltedPwdHash = Utils.sha256(salt + pwdSha256);
 
 		try {
-			plannerRestService.getResourcLoginResource().authenticate(new User(user, saltedPwdHash));
+			plannerRestService.getLoginResource().authenticate(new User(email, saltedPwdHash));
 			Assert.fail("Authentication succsessful");
 		} catch (Exception exc) {
 			//
@@ -96,18 +96,18 @@ public class PlannerRestServiceTest {
 
 	@Test
 	public void authenticateSaltExpired() throws Exception {
-		String user = "viktor";
+		String email = "viktor";
 		String password = "viktor";
 
 		String pwdSha256 = Utils.sha256(password);
-		String salt = plannerRestService.getResourcLoginResource().getSalt(user);
+		String salt = plannerRestService.getLoginResource().getSalt(email);
 
 		Thread.sleep(6000);
 
 		String saltedPwdHash = Utils.sha256(salt + pwdSha256);
 
 		try {
-			plannerRestService.getResourcLoginResource().authenticate(new User(user, saltedPwdHash));
+			plannerRestService.getLoginResource().authenticate(new User(email, saltedPwdHash));
 			Assert.fail("Authentication succsessful");
 		} catch (Exception exc) {
 			//

@@ -5,11 +5,11 @@ import de.sartison.planner.client.util.LocalStorage;
 public class LocalAccess {
 	private LocalStorage localStorage = new LocalStorage();
 	
-	public String getUser() {
-		return localStorage.getItem("PASSWORD");
+	public String getEmail() {
+		return localStorage.getItem("EMAIL");
 	}
 	
 	public String getPassword() {
-		return localStorage.getItem("USER");
+		return localStorage.getItem("PASSWORD");
 	}
 }

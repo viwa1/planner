@@ -3,12 +3,15 @@ package de.sartison.planner.client.ui.presenter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.fusesource.restygwt.client.FailedResponseException;
+
 import com.google.gwt.dom.client.Style.Unit;
 
 import de.sartison.planner.client.ui.binder.MessagePanel;
 import de.sartison.planner.client.ui.view.MessageView;
 import de.sartison.planner.client.util.I18N;
 import de.sartison.planner.client.util.Preferences;
+import de.sartison.planner.client.util.Utils;
 import de.sartison.planner.model.MessageIcon;
 
 public class MessagePresenter implements Presenter {
@@ -27,7 +30,7 @@ public class MessagePresenter implements Presenter {
 
 		MessagePanel messagePanel = (MessagePanel) view;
 		messagePanel.getElement().getStyle().setHeight(MIN_HEIGHT, Unit.PX);
-		
+
 		showMessage(MessageIcon.INFO, I18N.INSTANCE.wellcomeLabel(), I18N.INSTANCE.wellcomeLabelDesc());
 	}
 
@@ -80,27 +83,41 @@ public class MessagePresenter implements Presenter {
 
 		view.setMessageText(title);
 		view.setMessageDesc(description);
-		
+
 		view.setMessageTextStyleName(titleStyle);
 		view.setMessageDescStyleName(descStyle);
 	}
 
 	public void showMessage(String title, Throwable caught) {
 		LOGGER.log(Level.SEVERE, title, caught);
-		showMessage(MessageIcon.ERROR, title, caught.getMessage());
+
+		String message = caught.getMessage();
+
+		if (caught instanceof FailedResponseException) {
+			FailedResponseException exception = (FailedResponseException) caught;
+			if (exception.getResponse() != null) {
+				int statusCode = exception.getResponse().getStatusCode();
+				String statusText = exception.getResponse().getStatusText();
+				String text = exception.getResponse().getText();
+
+				message = statusCode + " " + statusText + ( !Utils.isNullOrEmpty(text) ? " (" + text + ")" : "");
+			}
+		}
+
+		showMessage(MessageIcon.ERROR, title, message);
 	}
 
 	public void switchSize() {
 		MessagePanel messagePanel = (MessagePanel) view;
 		String height = messagePanel.getElement().getStyle().getHeight();
 		double curHeight;
-		
+
 		if (height.contains("" + MIN_HEIGHT)) {
 			curHeight = MAX_HEIGHT;
 		} else {
 			curHeight = MIN_HEIGHT;
 		}
-		
+
 		messagePanel.getElement().getStyle().setHeight(curHeight, Unit.PX);
 	}
 }
