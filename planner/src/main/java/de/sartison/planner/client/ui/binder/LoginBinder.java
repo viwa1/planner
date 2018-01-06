@@ -2,6 +2,8 @@ package de.sartison.planner.client.ui.binder;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -31,6 +33,20 @@ public class LoginBinder extends PresenterComposite<LoginPresenter> implements L
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
+	@UiHandler("emailTextBox")
+	public void onEmailTextBoxKeyUp(KeyUpEvent event) {
+		if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+			onLoginButtonClicked(null);
+		}
+	}
+
+	@UiHandler("passwordTextBox")
+	public void onPasswordTextBoxKeyUp(KeyUpEvent event) {
+		if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+			onLoginButtonClicked(null);
+		}
+	}
+	
 	@UiHandler("loginButton")
 	public void onLoginButtonClicked(ClickEvent event) {
 		getPresenter().tryLogin();
